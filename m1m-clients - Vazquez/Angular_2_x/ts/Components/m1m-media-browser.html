@@ -1,0 +1,69 @@
+<section class="media-server">
+  <!-- le header contient un fil d'ariane ("breadcrumb") -->
+    <header class="server-breadcrumb">
+        <!-- Le mot "Servers" est cliquable et renvoie à la liste des servers disponibles -->
+        <span (click)="browseMediaServer(null)">
+          Servers
+        </span>
+        <!-- ms.name est le nom du serveur sélectionné. Il est cliquable -->
+        <span *ngIf="ms" (click)="browseMediaServer(ms)">
+           <p>{{ms.name}}</p>
+           <section id="selection" >
+             <p>Nom du dossier/fichier sélectionné</p>
+           </section>
+           <div class="vr"></div>
+           <div class="vr_cache"></div>
+        </span>
+        <!-- la balise ci-dessous liste tous les dossiers parcourus (boucle *ngfor) -->
+        <span *ngFor="let dir of breadcrumb" (click)="browse(dir)">
+           <p>{{dir.name}}</p>
+           <section id="selection" >
+             <p>Nom du dossier/fichier sélectionné</p>
+           </section>
+           <div class="vr"></div>
+           <div class="vr_cache"></div>
+         </span>
+
+    </header>
+
+    <!-- Liste des serveurs -->
+    <section class="servers-list" *ngIf="!ms">
+      <section id="selection" >
+        <p>Nom du dossier/fichier sélectionné</p>
+      </section>
+
+      <div class="cible"><div class="centre"></div></div>
+      <div id="cadran" class="animated">
+        <div class="server_btn"><div class="center_btn"></div></div>
+        <!-- le bloc ci-dessous est affiché autant de fois qu'il y a de serveurs -->
+        <p *ngFor="let server of devices" (click)="browseMediaServer(server)" class="server">
+            {{server.name }}
+        </p>
+      </div>
+    </section>
+
+    <!-- cette section affiche le contenu des serveurs : des dossiers (directories) ou des médias (medias) -->
+    <section class="dir-list" *ngIf="ms && data">
+      <div class="cible"><div class="centre"></div></div>
+      <div id="cadran" class="animated">
+        <div class="server_btn"><div class="center_btn"></div></div>
+        <!-- ce bloc affiche tous les dossiers à chaque niveau de l'arborescence -->
+        <p *ngFor="let dir of data.directories" (click)="browse(dir)" class="dir">
+            {{dir.name}}
+        </p>
+
+        <!-- Si il y a des médias l'application affiche ce tableau -->
+        <table cellpadding="0" cellspacing="0" width="100%" class="medias">
+            <tr style="cursor:move" *ngFor="let media of data.medias" [alx-draggable]="media">
+            <td class="media-title">
+              {{ media.title }} — {{ media.creator }}
+            </td>
+            <td class="media-duration">
+              {{media.duration}}
+            </td>
+          </tr>
+        </table>
+        </div>
+      </section>
+
+</section>

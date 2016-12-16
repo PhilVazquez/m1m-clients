@@ -1,0 +1,251 @@
+
+
+// Mixins
+@mixin circle-div($d) {
+  max-width:  $d;
+  max-height: $d;
+  min-width:  $d;
+  min-height: $d;
+  border-radius: $d/2;
+}
+
+@mixin rond($bkg){
+  color: rgba(0,0,0,0);
+  overflow: hidden;
+  width: 7vh;
+  height: 7vh;
+  border-radius: 50%;
+  background-color: $bkg;
+}
+
+// Animations
+@keyframes slide-dir{
+  from{padding-left:100px}
+  to{padding-left:0px}
+}
+
+@keyframes fx-rot-cadran{
+  from{transform: rotate(-90deg);}
+  to{transform: rotate(0deg);}
+}
+
+@keyframes transition_server_btn{
+  from{width: 40vh; height:40vh; top:0vh; left:calc(50% - 20vh);}
+  to{width: 20vh; height:20vh; top:10vh; left:calc(50% - 10vh);}
+}
+
+@keyframes transition_center_btn{
+  from{width: 20vh; height:20vh; top:10vh; left:calc(50% - 10vh);}
+  to{width: 0vh; height:0vh; top:10vh; left:calc(50% - 0vh);}
+}
+
+// @keyframes fx-reverse-rot-cadran{
+//   from{transform: rotate(0deg) translateY(-600%);}
+//   to{transform: rotate(180deg) translateY(-600%);}
+// }
+
+
+// Reset CSS
+*{
+  margin: 0;
+  padding: 0;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+}
+
+header span:first-child{
+  display: none;
+}
+
+
+
+// Styles
+  // Général
+
+body{
+  margin: 0;
+  font-family: Roboto;
+  background: #222;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+
+  // Breadcrumb
+
+.server-breadcrumb{
+  span{
+    display: block;
+
+    $colors: gold, deepskyblue, mediumspringgreen, tomato;
+
+    @for $i from 1 through length($colors) {
+      &:nth-child(#{length($colors)}n+#{$i}) {
+        background: nth($colors, $i);
+        p{
+          padding: 0.25em 0;
+          background: nth($colors, $i);
+        }
+        .vr_cache{
+          background: nth($colors, $i);
+          width: 100%;
+          height: 50vh;
+          position: absolute;
+          bottom: 0;
+        }
+      }
+    &:last-child{
+      height: 100vh;
+    }
+    }
+  }
+}
+
+
+  // Cadre de sélection
+
+#selection{
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  font-size: 150%;
+  span:not(:last-child) &{
+    display: none;
+  }
+}
+
+.vr{
+  height: 100%;
+  width: 50%;
+  border-right: 2px solid white;
+  span:not(:last-child) &{
+      display: none;
+    }
+}
+
+// Cadran
+
+.server{
+@include rond(white);
+}
+
+.dir{
+@include rond(white);
+}
+
+.dir-list, .servers-list{
+  width: 100%;
+  height: 50vh;
+  position: absolute;
+  // bottom: 15vh;
+  bottom: 0;
+  // transform-origin: center -15vh;
+  // transform: scale(0.9) rotate(21deg);
+
+  #selection{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    p{
+      width: 100%;
+      transform: none;
+      left: 0;
+    }
+  }
+
+  .cible{
+    @include rond(transparent);
+    width: 8vh;
+    height: 8vh;
+    border: 2px solid white;
+    position: absolute;
+    z-index: 2;
+    margin-left: calc(50% - 4vh);
+    pointer-events: none;
+
+    .centre{
+      margin: 33%;
+      width: 33%;
+      height: 33%;
+    }
+  }
+
+  .selected{
+    background: black;
+    transition: background 0.5s;
+  }
+
+  #cadran{
+    width: 40vh;
+    height: 40vh;
+    border-radius: 50%;
+    // background: gold;
+    margin: 0 auto;
+    transform-origin: center;
+    transition: all 0.1s ease-out;
+    &.animated{
+      animation: fx-rot-cadran 0.5s ease-out forwards;
+    }
+    .server_btn{
+      @include rond(black);
+      width: 20vh;
+      height: 20vh;
+      position: absolute;
+      top: 10vh;
+      left: calc(50% - 10vh);
+      opacity: 0.1;
+    }
+  }
+
+  p{
+    display: inline-block;
+    position: absolute;
+    transform-origin: 0 20vh;
+
+    $nbre:10;
+
+    @for $i from 1 through $nbre {
+      &:nth-of-type(#{$i}) {
+        $angle: (($i * (360/$nbre))-(360/$nbre));
+        transform: rotate(-$angle+deg) translateX(-3.25vh) translateY(0.75vh);
+      }
+    }
+    &:nth-of-type(n+11){
+      display: none;
+    }
+  }
+}
+
+
+  // Partie Alexandre
+
+.dir,.medias{
+  // animation-name: slide-dir;
+  // animation-duration: .3s;
+  tr td{
+    transition: all .5s;
+  }
+  tr:active td{
+    background-color: lightgreen;
+    padding: 8px 0px;
+  }
+}
+
+// tests styles Alex
+section[alx-dropzone] {
+    // border: 1px solid #DDD
+}
+
+section.playing {
+    // border: solid black 2px;
+}
+
+section[alx-dropzone].dropCandidate {
+    background: lightgreen;
+}
+
+section[alx-dropzone].dropCandidate.canDrop {
+    background: green;
+}

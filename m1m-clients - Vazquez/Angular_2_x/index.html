@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,900,900i" rel="stylesheet">
+
+    <title>MC</title>
+
+    <!-- 1. Load libraries -->
+    <script src="node_modules/webcomponents.js/webcomponents-lite.min.js"></script>
+
+
+    <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    <!-- Polymer Elements -->
+    <link rel="import" href="node_modules/@polymer/paper-slider/paper-slider.html" />
+
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+        document.addEventListener('WebComponentsReady', function() {
+            document.querySelector("root-manager").textContent += "WebComponentsReady...";
+            System.import('main').catch(function (err) {
+                console.error(err);
+                document.body.appendChild(document.createTextNode(err));
+            });
+        });
+    </script>
+
+    <!-- 3. CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title">
+    <link rel="stylesheet" href="css/main.min.css" />
+
+    <!-- Script perso -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <script src="cadran.js"></script>
+
+</head>
+<body>
+    <root-manager>Loading…</root-manager>
+</body>
+</html>
